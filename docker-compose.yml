@@ -55,6 +55,9 @@ services:
     container_name: mysql
     networks:
       - cg
+    labels: 
+      - "docker-volume-backup.archive-pre=/bin/sh -c 'databasedump --archive > /var/lib/mysql/mysql.archive'"  
+      - "docker-volume-backup.exec-label=mysql"
 
   wordpress:
     image: wordpress:6.3.2
@@ -80,6 +83,23 @@ services:
 
     networks:
       - cg
+    labels: 
+      - "docker-volume-backup.archive-pre=/bin/sh -c 'wordpressdump --archive > /var/www/html/wordpress.archive'"  
+      - "docker-volume-backup.stop-during-backup=wordpress"  
+
+  backup:
+    image: offen/docker-volume-backup:v2
+    container_name: backup
+    restart: always
+    env_file:
+      - ./backup.env
+    volumes:
+      - ./backup-configuration:/etc/dockervolumebackup/conf.d
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - wp_data:/backup/wordpress-backup:ro
+      - db_data:/backup/database-backup:ro    
+
+
 
 volumes:
   db_data:
@@ -87,3 +107,4 @@ volumes:
 
 networks:
   cg:
+
