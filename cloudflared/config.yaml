@@ -1,5 +1,5 @@
-tunnel: 7127454f-ac94-4ab9-a5f1-8010f49e5172
-credentials-file: /etc/cloudflared/7127454f-ac94-4ab9-a5f1-8010f49e5172.json 
+tunnel: XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXX
+credentials-file: /etc/cloudflared/XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXX.json 
 ingress:
   - hostname: foobar.shivanandpatil.co 
     service: http://wordpress:80
